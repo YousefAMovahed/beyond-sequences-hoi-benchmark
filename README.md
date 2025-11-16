@@ -29,9 +29,9 @@ To reproduce our findings, follow these steps:
 
 **1. Clone the repository:**
 
-git clone [https://github.com/YOUR_USERNAME/beyond-sequences-hoi-benchmark.git](https://github.com/YOUR_USERNAME/beyond-sequences-hoi-benchmark.git)
+git clone [https://github.com/YousefAMovahed/beyond-sequences-hoi-benchmark.git](https://github.com/YOUR_USERNAME/beyond-sequences-hoi-benchmark.git)
 cd beyond-sequences-hoi-benchmark
-(Replace YOUR_USERNAME with your GitHub username)
+
 
 **2. Install dependencies: (We will add the requirements.txt file in the next step)**
 
