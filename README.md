@@ -33,11 +33,12 @@ git clone [https://github.com/YOUR_USERNAME/beyond-sequences-hoi-benchmark.git](
 cd beyond-sequences-hoi-benchmark
 (Replace YOUR_USERNAME with your GitHub username)
 
-**2. Install dependencies: (We will add the requirements.txt file in the next step)
+**2. Install dependencies: (We will add the requirements.txt file in the next step)**
 
 
 pip install -r requirements.txt
-**3. Run the experiments:
+
+**3. Run the experiments:**
 
 To reproduce the Optimized MLP baseline (Model 3):
 
