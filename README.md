@@ -67,5 +67,5 @@ If you find this work useful in your research, please consider citing our paper:
   title={Beyond Sequences: A Benchmark for Atomic Hand-Object Interaction Using a Static RNN Encoder},
   author={Azizi Movahed, Yousef and Ziaeetabar, Fatemeh},
   booktitle={Conference (TBD)},
-  year={2024 (TBD)}
+  year={2025 (TBD)}
 }
