@@ -33,7 +33,7 @@ git clone [https://github.com/YousefAMovahed/beyond-sequences-hoi-benchmark.git]
 cd beyond-sequences-hoi-benchmark
 
 
-**2. Install dependencies: (We will add the requirements.txt file in the next step)**
+**2. Install dependencies:**
 
 
 pip install -r requirements.txt
