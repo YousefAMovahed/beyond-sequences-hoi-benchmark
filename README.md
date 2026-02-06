@@ -1,5 +1,3 @@
----
-
 # Beyond Sequences: A Benchmark for Atomic Hand-Object Interaction
 
 **Official Code Repository for the paper:** *Beyond Sequences: A Benchmark for Atomic Hand-Object Interaction Using a Static RNN Encoder*
