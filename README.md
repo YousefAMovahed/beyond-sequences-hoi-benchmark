@@ -1,71 +1,109 @@
+---
+
 # Beyond Sequences: A Benchmark for Atomic Hand-Object Interaction
-Official Code Repository for the paper: *Beyond Sequences: A Benchmark for Atomic Hand-Object Interaction Using a Static RNN Encoder*
 
-[![Paper](https://img.shields.io/badge/Paper-LINK%20(TBD)-blue)](https://LINK_TO_YOUR_PAPER_PDF)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+**Official Code Repository for the paper:** *Beyond Sequences: A Benchmark for Atomic Hand-Object Interaction Using a Static RNN Encoder*
 
-This repository provides the dataset and code necessary to reproduce the key findings of our paper. We investigate the classification of atomic hand-object interaction states (e.g., *approaching*, *grabbing*, *holding*) using statistical-kinematic features.
+This repository provides the dataset, code, and rigorous evaluation protocols necessary to reproduce the findings of our research. We address the fine-grained classification of **atomic hand-object interaction states** (e.g., *approaching*, *grabbing*, *holding*) using interpretable statistical-kinematic features.
 
-Our central, counter-intuitive finding is that for richly engineered features, a **Bidirectional RNN used as a static encoder (with `seq_length=1`)** dramatically outperforms both standard MLPs and conventional temporal RNNs, achieving **97.60% accuracy** and resolving the most ambiguous transitional classes.
+## Key Contributions & Findings
+
+1. **The "Static Encoder" Discovery:** We demonstrate that a **Bidirectional RNN configured as a static encoder (`seq_length=1`)** functions as a high-capacity Gated MLP, significantly outperforming temporal variants (`seq_length=5`) in capturing transient states like 'grabbing'.
+2. **Rigorous Evaluation Protocol:** Unlike prior works that may rely on randomized splits, we establish a strict **Leave-One-Group-Out (Group K-Fold)** benchmark. This ensures no video-leakage occurs between training and testing, providing a realistic assessment of generalization.
+3. **Benchmark Results:**
+* **Baseline (Random Split):** Our model achieves **97.60% accuracy**, demonstrating high instantaneous feature discriminability.
+* **Rigorous (Group Split):** Under strict video-independent testing, our model maintains **84.03% accuracy** and achieves the highest robustness in the critical 'grabbing' class (**F1: 0.36**), outperforming SVM, Random Forest, and MLP baselines.
+
+
+
+---
 
 ## The Benchmark Dataset
 
 The core of this benchmark is located in:
+
 * `data/MANIAC_benchmark_dataset.csv`
 
-This file contains the final, processed dataset of **27,476 statistical-kinematic feature vectors**. Each row is one sample, derived from a 10-frame window, and labeled with one of five atomic states. The full data preparation pipeline (from raw MANIAC videos) is archived in `notebooks/Data_Preparation_Archive.ipynb` for transparency.
+This file contains the final, processed dataset of **27,476 statistical-kinematic feature vectors**. Each row represents a sample derived from a 10-frame sliding window, labeled with one of five atomic states. The raw data originates from the MANIAC dataset, processed through our custom feature engineering pipeline.
+
+---
 
 ## Repository Structure
 
-This repository is structured to follow the "evolutionary path" of experiments detailed in the paper:
+This repository is organized into two phases, reflecting the evolutionary path of our experiments:
 
-* `1_Baseline_MLP.py`: Reproduces the **Optimized MLP Baseline** (Model 3 in the paper).
+### Phase 1: Initial Explorations (Random Split)
+
+*These scripts reproduce the initial findings regarding feature discriminability (as detailed in the early sections of the paper).*
+
+* `1_Baseline_MLP.py`: Reproduces the **Optimized MLP Baseline** (Model 3).
 * `2_Temporal_BiRNN.py`: Reproduces the **Temporal Hypothesis** using a Bi-RNN with `seq_length=5` (Model 6).
-* `3_Champion_Model_Static_RNN.py`: Reproduces the **Breakthrough Finding** and the **Final Champion Model** using a Bi-RNN with `seq_length=1` and Optuna hyperparameter tuning (Model 8).
+* `3_Champion_Model_Static_RNN.py`: Reproduces the initial **Breakthrough Finding** using a Bi-RNN with `seq_length=1` (Model 8).
+
+### Phase 2: Rigorous Benchmarking (Group K-Fold) [MAIN]
+
+*These scripts represent the rigorous evaluation protocol and the final reported benchmark results.*
+
+* `4_Rigorous_Group_Benchmark.py`: **(Crucial)** Runs the comprehensive benchmark comparing **SVM, RF, MLP, Bi-RNN (Static), and Bi-RNN (Temporal)** using the strict **Group K-Fold** protocol. This script reproduces the final "Truth Table" in the paper.
+* `5_Ablation_Study.py`: Reproduces the **Ablation Study**, quantifying the contribution of Interaction vs. Kinematic features to the model's performance.
+
+---
 
 ## How to Reproduce Results
 
 To reproduce our findings, follow these steps:
 
-**1. Clone the repository:**
+### 1. Setup
 
-git clone [https://github.com/YousefAMovahed/beyond-sequences-hoi-benchmark.git](https://github.com/YousefAMovahed/beyond-sequences-hoi-benchmark.git)
+```bash
+git clone https://github.com/YousefAMovahed/beyond-sequences-hoi-benchmark.git
 cd beyond-sequences-hoi-benchmark
-
-
-**2. Install dependencies:**
-
-
 pip install -r requirements.txt
 
-**3. Run the experiments:**
+```
 
-To reproduce the Optimized MLP baseline (Model 3):
+### 2. Run the Rigorous Benchmark (The "Truth Table")
 
+This is the most important script, reproducing the final comparative results (Table 2 in the paper):
 
-python 1_Baseline_MLP.py
-(This script will run K-Fold cross-validation and print the average baseline metrics)
+```bash
+python 4_Rigorous_Group_Benchmark.py
 
-To reproduce the Temporal Bi-RNN (Model 6):
+```
 
+*Output: A comparative table of Overall Accuracy, Weighted F1, and Grabbing F1 for all models under the strict Group Split protocol.*
 
-python 2_Temporal_BiRNN.py
-(This script will test the temporal hypothesis and print the average metrics for the seq_length=5 model)
+### 3. Run Feature Analysis
 
-To reproduce the Champion Model (Model 8):
+To verify the importance of interaction features (Table 3 in the paper):
 
+```bash
+python 5_Ablation_Study.py
 
+```
 
+### 4. Reproduce Initial Phase (Optional)
+
+To see the high discriminability in the random split setting (Table 1 in the paper):
+
+```bash
 python 3_Champion_Model_Static_RNN.py
-(This script will run the full Optuna search to find the best hyperparameters for the seq_length=1 static encoder and will train, evaluate, and save the final champion model, printing its detailed classification report.)
 
-Citation
-If you find this work useful in your research, please consider citing our paper:
+```
 
+---
 
-@inproceedings{azizi2024beyond,
+## Citation
+
+If you find this benchmark or code useful in your research, please cite our paper:
+
+```bibtex
+@inproceedings{azizi2025beyond,
   title={Beyond Sequences: A Benchmark for Atomic Hand-Object Interaction Using a Static RNN Encoder},
   author={Azizi Movahed, Yousef and Ziaeetabar, Fatemeh},
-  booktitle={Conference (TBD)},
-  year={2025 (TBD)}
+  booktitle={Proceedings of the IEEE International Conference on [Conference Name]},
+  year={2025},
+  note={Under Review}
 }
+
+```
